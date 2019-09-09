@@ -15,6 +15,7 @@ import java.util.*;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.servlet.multipart.Part;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.dspace.app.util.Util;
 import org.dspace.app.xmlui.utils.UIException;
 import org.dspace.app.xmlui.wing.Message;
@@ -26,6 +27,9 @@ import org.dspace.content.Collection;
 import org.dspace.content.authority.Choices;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.*;
+import org.dspace.identifier.DOIIdentifierProvider;
+import org.dspace.identifier.IdentifierException;
+import org.dspace.identifier.doi.DOIIdentifierNotApplicableException;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
@@ -52,6 +56,7 @@ public class FlowItemUtils
     private static final Message T_item_public = new Message("default","The item is now public.");
     private static final Message T_item_private = new Message("default","The item is now private.");
 	private static final Message T_item_reinstated = new Message("default","The item has been reinstated.");
+	private static final Message T_item_doi_registered = new Message("default", "xmlui.administrative.FlowItemUtils.doi_registered");
 	private static final Message T_item_moved = new Message("default","The item has been moved.");
 	private static final Message T_item_move_destination_not_found = new Message("default","The selected destination collection could not be found.");
 	private static final Message T_bitstream_added = new Message("default","The new bitstream was successfully uploaded.");
@@ -71,6 +76,8 @@ public class FlowItemUtils
 	protected static final BitstreamFormatService bitstreamFormatService = ContentServiceFactory.getInstance().getBitstreamFormatService();
 
 	protected static final HandleService handleService = HandleServiceFactory.getInstance().getHandleService();
+
+	private static final Logger log = Logger.getLogger(FlowItemUtils.class);
 
 	
 	/**
@@ -332,6 +339,42 @@ public class FlowItemUtils
         result.setOutcome(true);
         result.setMessage(T_item_reinstated);
         
+		return result;
+	}
+
+	public static FlowResult processMintDOIForItem(Context context, UUID itemID) throws SQLException, AuthorizeException, IOException {
+		FlowResult result = new FlowResult();
+		result.setContinue(false);
+		result.setOutcome(false);
+
+		Item item = itemService.find(context, itemID);
+
+		DOIIdentifierProvider provider = DSpaceServicesFactory.getInstance().
+			getServiceManager().getServiceByName("org.dspace.identifier.DOIIdentifierProvider",
+			DOIIdentifierProvider.class);
+
+		String resultMessage;
+		
+		try {
+			String newDoi = provider.register(context, item, true);
+			if(newDoi != null) {
+				result.setMessage(T_item_doi_registered);
+				result.setContinue(true);
+				result.setOutcome(true);
+			}
+			else {
+				log.error("Got a null DOI after registering...");
+			}
+		} catch (DOIIdentifierNotApplicableException ex) {
+			log.error(ex);
+		} catch (IllegalArgumentException ex) {
+			log.error(ex);
+		} catch (IllegalStateException ex) {
+			log.error(ex);
+		} catch (IdentifierException ex) {
+			log.error(ex);
+		}
+
 		return result;
 	}
 

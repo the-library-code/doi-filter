@@ -1523,6 +1523,9 @@ function doEditItemStatus(itemID)
 			// Confirm the reinstatiation of the item
 			result = doReinstateItem(itemID);
 		}
+		else if (cocoon.request.get("submit_register_doi")) {
+			result = doRegisterDOI(itemID);
+		}
         else if (cocoon.request.get("submit_private"))
         {
 
@@ -1733,6 +1736,19 @@ function doReinstateItem(itemID)
 	return null;
 }
 
+/**
+ * Mint the doi
+ * @param itemID
+ * @returns {*}
+ */
+function doRegisterDOI(itemID) {
+	sendPageAndWait("admin/item/register-doi", {"itemID":itemID});
+	if(cocoon.request.get("submit_confirm")) {
+		var result = FlowItemUtils.processMintDOIForItem(getDSContext(), itemID);
+		return result;
+	}
+	return null;
+}
 
 function doPrivateItem(itemID)
 {

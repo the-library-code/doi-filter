@@ -59,6 +59,11 @@ import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.handle.factory.HandleServiceFactory;
 import org.dspace.handle.service.HandleService;
+import org.dspace.identifier.DOI;
+import org.dspace.identifier.DOIIdentifierProvider;
+import org.dspace.identifier.IdentifierException;
+import org.dspace.identifier.doi.DOIIdentifierNotApplicableException;
+import org.dspace.identifier.factory.IdentifierServiceFactory;
 import org.dspace.license.CCLicense;
 import org.dspace.license.CCLookup;
 import org.dspace.license.LicenseMetadataValue;
@@ -66,6 +71,7 @@ import org.dspace.license.factory.LicenseServiceFactory;
 import org.dspace.license.service.CreativeCommonsService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
+import org.dspace.utils.DSpace;
 
 /**
  * Servlet for editing and deleting (expunging) items
@@ -110,6 +116,12 @@ public class EditItemServlet extends DSpaceServlet
 
     /** User updates Creative Commons License */
     public static final int UPDATE_CC = 12;
+
+    /** User registers DOI */
+    public static final int REGISTER_DOI = 13;
+
+    /** User reserves a DOI */
+    public static final int RESERVE_DOI = 14;
 
     /** JSP to upload bitstream */
     protected static final String UPLOAD_BITSTREAM_JSP = "/tools/upload-bitstream.jsp";
@@ -454,6 +466,35 @@ public class EditItemServlet extends DSpaceServlet
 
             break;
 
+        case REGISTER_DOI:
+
+            DOIIdentifierProvider provider = DSpaceServicesFactory.getInstance().
+                getServiceManager().getServiceByName("org.dspace.identifier.DOIIdentifierProvider",
+                DOIIdentifierProvider.class);
+            
+            try {
+                String newDoi = provider.register(context, item, true);
+                if(newDoi != null) {
+                    request.setAttribute("registered-doi", newDoi);
+                }
+                else {
+                    log.error("Got a null DOI after registering...");
+                }
+            } catch (DOIIdentifierNotApplicableException ex) {
+                log.error(ex);
+            } catch (IllegalArgumentException ex) {
+                log.error(ex);
+            } catch (IllegalStateException ex) {
+                log.error(ex);
+            } catch (IdentifierException ex) {
+                log.error(ex);
+            }
+            
+            showEditForm(context, request, response, item);
+            context.complete();
+
+            break;
+
         default:
 
             // Erm... weird action value received.
@@ -630,6 +671,12 @@ public class EditItemServlet extends DSpaceServlet
 			request.setAttribute("publicize_button", authorizeService
 					.authorizeActionBoolean(context, item, Constants.WRITE));
 		}
+        
+        // Only show register DOI if the item doesn't already have one and the
+        // item is no template of a collection
+        boolean showRegisterDoiButton = (item.getTemplateItemOf() == null)
+                && (IdentifierServiceFactory.getInstance().getDOIService().findDOIByDSpaceObject(context, item) == null);
+        request.setAttribute("register_doi_button", showRegisterDoiButton);
 
         request.setAttribute("item", item);
         request.setAttribute("handle", handle);

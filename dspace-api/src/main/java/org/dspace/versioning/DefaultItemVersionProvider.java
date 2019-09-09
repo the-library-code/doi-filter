@@ -13,6 +13,7 @@ import org.dspace.content.WorkspaceItem;
 import org.dspace.content.service.WorkspaceItemService;
 import org.dspace.core.Context;
 import org.dspace.identifier.IdentifierException;
+import org.dspace.identifier.doi.DOIIdentifierNotApplicableException;
 import org.dspace.identifier.service.IdentifierService;
 import org.dspace.versioning.service.VersionHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,11 @@ public class DefaultItemVersionProvider extends AbstractVersionProvider implemen
             try
             {
                 identifierService.reserve(c, itemNew);
+            } catch(DOIIdentifierNotApplicableException e) {
+                // This exception is a non-fatal indicator that the item filter has filtered this item from
+                // having an identifier applied, so we can just log a message and silently continue
+                log.debug("Identifier was not reserved due to a 'false' evaluation from the filtered item provider " +
+                    " : " + itemNew.getID() + " : " + e.getMessage());
             } catch (IdentifierException e) {
                 throw new RuntimeException("Can't create Identifier!", e);
             }

@@ -49,7 +49,7 @@ public class VersionedDOIIdentifierProvider extends DOIIdentifierProvider
     protected VersionHistoryService versionHistoryService;
     
     @Override
-    public String mint(Context context, DSpaceObject dso)
+    public String mint(Context context, DSpaceObject dso, Boolean skipFilter)
             throws IdentifierException
     {
         if (!(dso instanceof Item))
@@ -119,7 +119,7 @@ public class VersionedDOIIdentifierProvider extends DOIIdentifierProvider
                 // ensure DOI exists in our database as well and return.
                 // this also checks that the doi is not assigned to another dso already.
                 try {
-                    loadOrCreateDOI(context, dso, versionedDOI);
+                    loadOrCreateDOI(context, dso, versionedDOI, skipFilter);
                 } catch (SQLException ex) {
                     log.error("A problem with the database connection occurd while processing DOI " + versionedDOI + ".", ex);
                     throw new RuntimeException("A problem with the database connection occured.", ex);
@@ -148,7 +148,7 @@ public class VersionedDOIIdentifierProvider extends DOIIdentifierProvider
     }
     
     @Override
-    public void register(Context context, DSpaceObject dso, String identifier) 
+    public void register(Context context, DSpaceObject dso, String identifier, Boolean skipFilter)
             throws IdentifierException
     {
         if (!(dso instanceof Item))
@@ -168,7 +168,7 @@ public class VersionedDOIIdentifierProvider extends DOIIdentifierProvider
         // search DOI in our db
         try
         {
-            doi = loadOrCreateDOI(context, dso, doiIdentifier);
+            doi = loadOrCreateDOI(context, dso, doiIdentifier, skipFilter);
         } catch (SQLException ex) {
             log.error("Error in databse connection: " + ex.getMessage(), ex);
             throw new RuntimeException("Error in database conncetion.", ex);

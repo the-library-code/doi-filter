@@ -70,6 +70,11 @@
     
     Boolean collectionAdmin = (Boolean)request.getAttribute("is.collectionAdmin");
     boolean isCollectionAdmin = (collectionAdmin == null ? false : collectionAdmin.booleanValue());
+
+    Boolean registerDoiButton = (Boolean)request.getAttribute("register_doi_button");
+    boolean canRegisterDoi = (registerDoiButton == null ? false : registerDoiButton.booleanValue());
+
+    String registeredDOI = (String)request.getAttribute("registered-doi");
     
     String naviAdmin = "admin";
     String link = "/dspace-admin";
@@ -230,6 +235,18 @@
     You are responsible for entering the data in the correct format.
     If you are not sure what the format is, please do NOT make changes.</strong></p> --%>
     <p class="alert alert-danger"><strong><fmt:message key="jsp.tools.edit-item-form.note"/></strong></p>
+
+    <%
+
+        if(registeredDOI != null) {
+        %>
+              <p class="alert alert-success"><strong><fmt:message key="jsp.tools.edit-item-form.doi-registered-note"/>: <%= registeredDOI %></strong></p>
+        <%
+        }
+
+    %>
+
+
 
 	<div class="row">
 	<div class="col-md-9">
@@ -396,8 +413,21 @@
 									name="submit_item_select"
 									value="<fmt:message key="jsp.tools.edit-item-form.form.button.curate"/>" />
 							</form>
+        <% if(canRegisterDoi) { %>
+<%-- ===========================================================
+     Register DOI for Item
+     =========================================================== --%>
+                <form method="post"
+                      action="<%= request.getContextPath() %>/tools/edit-item">
+                    <input type="hidden" name="item_id" value="<%= item.getID() %>" />
+                    <input type="hidden" name="action" value="<%= EditItemServlet.REGISTER_DOI %>" />
+                    <input class="btn btn-default col-md-12" type="submit"
+                           name="submit_item_select"
+                           value="<fmt:message key="jsp.tools.edit-item-form.form.button.register-doi"/>" />
+                </form>
 					<%
-						}
+	    }
+    }
 					%>
     	    </div>
         </div>

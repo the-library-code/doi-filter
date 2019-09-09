@@ -631,6 +631,16 @@ to administer DSpace.
 		        			</map:transform>
 		        		</map:match>
 
+						<!--
+							Confirm registration of a DOI
+							-->
+						<map:match pattern="admin/item/register-doi">
+							<map:transform type="ConfirmItemForm">
+								<map:parameter name="confirm" value="register-doi"/>
+								<map:parameter name="itemID" value="{flow-attribute:itemID}"/>
+							</map:transform>
+						</map:match>
+
 		        		<map:match pattern="admin/item/private">
                             <map:transform type="ConfirmItemForm">
                                 <map:parameter name="confirm" value="private"/>

@@ -55,12 +55,14 @@ public class ConfirmItemForm extends AbstractDSpaceTransformer {
 	private static final Message T_para_delete = message("xmlui.administrative.item.ConfirmItemForm.para_delete");
 	private static final Message T_para_withdraw = message("xmlui.administrative.item.ConfirmItemForm.para_withdraw");
 	private static final Message T_para_reinstate = message("xmlui.administrative.item.ConfirmItemForm.para_reinstate");
+	private static final Message T_para_register_doi = message("xmlui.administrative.item.ConfirmItemForm.para_register_doi");
 	private static final Message T_column1 = message("xmlui.administrative.item.ConfirmItemForm.column1");
 	private static final Message T_column2 = message("xmlui.administrative.item.ConfirmItemForm.column2");
 	private static final Message T_column3 = message("xmlui.administrative.item.ConfirmItemForm.column3");
 	private static final Message T_submit_delete = message("xmlui.general.delete");
 	private static final Message T_submit_withdraw = message("xmlui.administrative.item.ConfirmItemForm.submit_withdraw");
 	private static final Message T_submit_reinstate = message("xmlui.administrative.item.ConfirmItemForm.submit_reinstate");
+	private static final Message T_submit_register_doi = message("xmlui.administrative.item.ConfirmItemForm.submit_register_doi");
 
     private static final Message T_submit_private = message("xmlui.administrative.item.ConfirmItemForm.submit_private");
     private static final Message T_submit_public = message("xmlui.administrative.item.ConfirmItemForm.submit_public");
@@ -106,6 +108,9 @@ public class ConfirmItemForm extends AbstractDSpaceTransformer {
 		{
 			main.addPara(T_para_withdraw);
 		}
+		else if("register-doi".equals(confirm)) {
+			main.addPara(T_para_register_doi);
+		}
 
 
 		// TABLE: metadata table
@@ -148,6 +153,10 @@ public class ConfirmItemForm extends AbstractDSpaceTransformer {
 		{
 			confirmButton.setValue(T_submit_withdraw);
 		}
+		else if("register-doi".equals(confirm)) {
+			confirmButton.setValue(T_submit_register_doi);
+		}
+
 		actions.addButton("submit_cancel").setValue(T_submit_cancel);
 
 		main.addHidden("administrative-continue").setValue(knot.getId());

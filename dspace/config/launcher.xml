@@ -346,6 +346,13 @@
         </step>
     </command>
     <command>
+        <name>test-logic</name>
+        <description>Test the DSpace logical item filter service</description>
+        <step>
+            <class>org.dspace.content.logic.TestLogicRunner</class>
+        </step>
+    </command>
+    <command>
         <name>update-handle-prefix</name>
         <description>Update handle records and metadata when moving from one handle to another</description>
         <step>

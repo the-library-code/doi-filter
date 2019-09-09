@@ -138,4 +138,5 @@ public abstract class IdentifierProvider {
      */
     public abstract void register(Context context, DSpaceObject object, String identifier)
             throws IdentifierException;
+    
 }

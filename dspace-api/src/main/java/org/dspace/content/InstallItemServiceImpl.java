@@ -70,7 +70,8 @@ public class InstallItemServiceImpl implements InstallItemService
             }else{
                 identifierService.register(c, item, suppliedHandle);
             }
-        } catch (IdentifierException e) {
+        }
+        catch (IdentifierException e) {
             throw new RuntimeException("Can't create an Identifier!", e);
         }
 
