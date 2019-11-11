@@ -982,6 +982,7 @@
 	<message key="xmlui.administrative.FlowItemUtils.bitstream_failed">Error while uploading file.</message>
 	<message key="xmlui.administrative.FlowItemUtils.bitstream_updated">The bitstream has been updated.</message>
 	<message key="xmlui.administrative.FlowItemUtils.bitstream_delete">The selected bitstreams have been deleted.</message>
+	<message key="xmlui.administrative.FlowItemUtils.doi_registered">The item has been registered with a DOI</message>
 	<message key="xmlui.administrative.FlowMapperUtils.map_items">The items were successfully mapped.</message>
 	<message key="xmlui.administrative.FlowMapperUtils.unmaped_items">The items have been unmapped.</message>
 
@@ -1518,11 +1519,13 @@
 	<message key="xmlui.administrative.item.ConfirmItemForm.para_delete">Are you sure this item should be completely deleted? Caution: At present, no tombstone would be left.</message>
 	<message key="xmlui.administrative.item.ConfirmItemForm.para_withdraw">Are you sure this item should be withdrawn from the archive?</message>
 	<message key="xmlui.administrative.item.ConfirmItemForm.para_reinstate">Are you sure this item should be reinstated to the archive?</message>
+	<message key="xmlui.administrative.item.ConfirmItemForm.para_register_doi">Are you sure you wish to register a new DOI for this item?</message>
 	<message key="xmlui.administrative.item.ConfirmItemForm.column1">Field</message>
 	<message key="xmlui.administrative.item.ConfirmItemForm.column2">Value</message>
 	<message key="xmlui.administrative.item.ConfirmItemForm.column3">Language</message>
 	<message key="xmlui.administrative.item.ConfirmItemForm.submit_withdraw">Withdraw</message>
 	<message key="xmlui.administrative.item.ConfirmItemForm.submit_reinstate">Reinstate</message>
+	<message key="xmlui.administrative.item.ConfirmItemForm.submit_register_doi">Register DOI</message>
     <message key="xmlui.administrative.item.ConfirmItemForm.submit_private">Make it Private</message>
     <message key="xmlui.administrative.item.ConfirmItemForm.submit_public">Make it Public</message>
 
@@ -1606,11 +1609,13 @@
 	<message key="xmlui.administrative.item.EditItemStatusForm.label_auth">Edit item's authorization policies</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.label_withdraw">Withdraw item from the repository</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.label_reinstate">Reinstate item into the repository</message>
+	<message key="xmlui.administrative.item.EditItemStatusForm.label_register_doi">Register a new DOI for this item</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.label_move">Move item to another collection</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.label_delete">Completely expunge item</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.submit_authorizations">Authorizations...</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.submit_withdraw">Withdraw...</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.submit_reinstate">Reinstate...</message>
+	<message key="xmlui.administrative.item.EditItemStatusForm.submit_register_doi">Register DOI...</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.submit_move">Move...</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.submit_delete">Permanently delete</message>
 	<message key="xmlui.administrative.item.EditItemStatusForm.na">n/a</message>
