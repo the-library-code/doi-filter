@@ -55,6 +55,9 @@
          registration agency,  take a look into dspace.cfg, and activate either
          the DOIIdentifierProvider or the VersionedDOIIdentifierProvider,
          depending on whether you have Item Level Versioning activated or not.
+
+         An optional 'filterService' property may be included with a reference to a bean name
+         as configured in item-filters.xml
     -->
     <!--
     <bean id="org.dspace.identifier.DOIIdentifierProvider"
@@ -76,7 +79,18 @@
             ref="org.dspace.identifier.doi.DOIConnector" />
     </bean>
     -->
-    
+    <!--
+    <bean id="org.dspace.identifier.DOIIdentifierProvider"
+        class="org.dspace.identifier.DOIIdentifierProvider"
+        scope="singleton">
+        <property name="configurationService"
+            ref="org.dspace.services.ConfigurationService" />
+        <property name="DOIConnector"
+            ref="org.dspace.identifier.doi.DOIConnector" />
+        <property name="filterService" ref="simple-demo_filter" />
+    </bean>
+    -->
+
     <!-- The DOIConnector will handle the API calls to your DOI registration
          agency for the DOIIdentifierProvider. If your registration agency
          tells you to use the DataCite API directly, you can use the
