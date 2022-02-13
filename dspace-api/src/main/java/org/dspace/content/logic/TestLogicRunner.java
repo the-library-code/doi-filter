@@ -78,9 +78,14 @@ public class TestLogicRunner {
             // Lit filters and exit
             List<Filter> filters = manager.getServicesByType(Filter.class);
             for(Filter filter : filters) {
-                System.out.println(filter.getClass().toString());
+                System.out.print(filter.getClass().toString());
+                if (filter.getName() != null) {
+                    System.out.println(" (" + filter.getName() + ")");
+                } else {
+                    System.out.println();
+                }
             }
-            System.out.println("See item-filters.xml spring config for filter names");
+            // System.out.println("See item-filters.xml spring config for filter names");
             System.exit(0);
         }
 

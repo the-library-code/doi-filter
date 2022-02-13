@@ -21,7 +21,8 @@ import org.dspace.core.Context;
  */
 public class DefaultFilter implements Filter {
     private LogicalStatement statement;
-
+    private String name;
+    
     // be aware that this is singular not plural. A filter can have one substatement only.
     public void setStatement(LogicalStatement statement) {
         this.statement = statement;
@@ -31,5 +32,15 @@ public class DefaultFilter implements Filter {
 
     public Boolean getResult(Context context, Item item) throws LogicalStatementException {
         return this.statement.getResult(context, item);
+    }
+    
+    @Override
+    public void setBeanName(String name) {
+        log.debug("Initialize bean " + name);
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
     }
 }

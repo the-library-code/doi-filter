@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
+import org.springframework.beans.factory.BeanNameAware;
 
 /**
  * The interface for Filter currently doesn't add anything to LogicalStatement but inherits from it
@@ -26,6 +27,7 @@ import org.dspace.core.Context;
  * @version $Revision$
  * @see org.dspace.content.logic.DefaultFilter
  */
-public interface Filter extends LogicalStatement {
+public interface Filter extends LogicalStatement, BeanNameAware {
     Boolean getResult(Context context, Item item) throws LogicalStatementException;
+    public String getName();
 }
